@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viveiro Florestal - Produção</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e8 100%);
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+
+        .tablet-container {
+            width: 1024px;
+            height: 768px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            border: 8px solid #2d3748;
+        }
+
+        .status-bar {
+            height: 24px;
+            background: #000000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            padding: 20px 32px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(72, 187, 120, 0.3);
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .main-content {
+            padding: 24px 32px;
+            height: calc(100% - 200px);
+            overflow-y: auto;
+            background: #fafafa;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border: 2px solid #4fd1c7;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #234e52;
+            margin: 0;
+        }
+
+        .stats-label {
+            font-size: 16px;
+            color: #2d5a5a;
+            margin: 4px 0 0 0;
+            font-weight: 500;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 80%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            margin: 0 auto 20px auto;
+            background: #f7fafc;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #48bb78;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            /* width: 100%; */
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #48bb78;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #48bb78;
+            border: 2px solid #48bb78;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #48bb78;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .data-table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 16px 24px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .table-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: #f7fafc;
+            padding: 16px 24px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        .table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #2d3748;
+            font-size: 15px;
+        }
+
+        .table tr:hover {
+            background: #f8fffe;
+        }
+
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            height: 80px;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #718096;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .nav-item:hover {
+            background: #f7fafc;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .species-badge {
+            background: #e6fffa;
+            color: #234e52;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .stock-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .stock-high {
+            background: #48bb78;
+        }
+
+        .stock-medium {
+            background: #ed8936;
+        }
+
+        .stock-low {
+            background: #f56565;
+        }
+
+        /* DOAÇÃO - Layout igual ao print */
+        #section-doacao .content-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        #section-doacao .transparency-card {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border: 2px solid #4fd1c7;
+            border-radius: 16px;
+            padding: 32px 0 16px 0;
+            text-align: center;
+            margin-bottom: 24px;
+            min-height: 100px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        #section-doacao .transparency-card .hand-plant-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        #section-doacao .form-section {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            padding: 28px 24px 24px 24px;
+            margin-bottom: 0;
+            max-width: 100%;
+        }
+
+        #section-doacao .form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-doacao .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        #section-doacao .form-group {
+            flex: 1;
+        }
+
+        #section-doacao .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        #section-doacao .form-input {
+            /* width: 100%; */
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        #section-doacao .form-input:focus {
+            outline: none;
+            border-color: #38a169;
+            box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
+        }
+
+        #section-doacao .btn-primary {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            color: white;
+            border: none;
+            padding: 18px 0;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+            margin-top: 16px;
+        }
+
+        #section-doacao .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.4);
+        }
+
+        #section-doacao .donations-section {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        #section-doacao .section-header {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 20px 24px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        #section-doacao .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-doacao .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 0;
+            background: #f8fafc;
+            padding: 12px 24px;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        #section-doacao .donations-list {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        #section-doacao .donation-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        #section-doacao .donation-item:last-child {
+            border-bottom: none;
+        }
+
+        #section-doacao .donation-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        #section-doacao .species-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 15px;
+        }
+
+        #section-doacao .donation-quantity {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        #section-doacao .status-chip {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        #section-doacao .status-comprovado {
+            background: #e6f7ff;
+            color: #3182ce;
+            border: 1px solid #90cdf4;
+        }
+
+        #section-doacao .status-entregue {
+            background: #f0fff4;
+            color: #38a169;
+            border: 1px solid #9ae6b4;
+        }
+
+        #section-doacao .status-pendente {
+            background: #fffaf0;
+            color: #ed8936;
+            border: 1px solid #fbd38d;
+        }
+
+        /* MAPA - Layout igual ao print */
+        #section-mapa .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        #section-mapa .map-section {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            padding: 24px 24px 16px 24px;
+            margin-bottom: 0;
+        }
+
+        #section-mapa .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-mapa .map-container {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 50%, #81e6d9 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        #section-mapa .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+            background-size: 28px 28px;
+            z-index: 1;
+        }
+
+        #section-mapa .map-pin {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            left: 10%;
+            top: 10%;
+            background: none;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        #section-mapa .map-pin svg {
+            width: 32px;
+            height: 32px;
+            display: block;
+        }
+
+        #section-mapa .map-pin.pin2 {
+            left: 30%;
+            top: 25%;
+        }
+
+        #section-mapa .map-pin.pin3 {
+            left: 60%;
+            top: 20%;
+        }
+
+        #section-mapa .map-pin.pin4 {
+            left: 40%;
+            top: 60%;
+        }
+
+        #section-mapa .map-pin.pin5 {
+            left: 70%;
+            top: 40%;
+        }
+
+        #section-mapa .map-pin.pin6 {
+            left: 20%;
+            top: 70%;
+        }
+
+        #section-mapa .map-legend {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            font-size: 13px;
+            z-index: 3;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        #section-mapa .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-mapa .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        #section-mapa .legend-dot.ativo {
+            background: #38a169;
+        }
+
+        #section-mapa .legend-dot.desenv {
+            background: #ed8936;
+        }
+
+        #section-mapa .gps-button {
+            background: #38a169;
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.2);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-mapa .gps-button:hover {
+            background: #2f855a;
+        }
+
+        #section-mapa .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        #section-mapa .upload-section {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            padding: 20px 0 20px 0;
+            text-align: center;
+        }
+
+        #section-mapa .upload-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        #section-mapa .upload-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 32px 0;
+            text-align: center;
+            background: #f7fafc;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 0 24px;
+        }
+
+        #section-mapa .upload-area:hover {
+            border-color: #38a169;
+            background: #f0fff4;
+        }
+
+        #section-mapa .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        #section-mapa .upload-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a5568;
+            margin: 0;
+        }
+
+        #section-mapa .photo-preview {
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        #section-mapa .preview-image {
+            max-width: 100%;
+            max-height: 120px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #section-mapa .info-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            padding: 20px 24px;
+            margin-top: 0;
+        }
+
+        #section-mapa .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-mapa .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 15px;
+        }
+
+        #section-mapa .info-item:last-child {
+            border-bottom: none;
+        }
+
+        #section-mapa .info-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        #section-mapa .info-value {
+            font-size: 14px;
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        #section-mapa .info-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        #section-mapa .status-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+            background: #38a169;
+        }
+
+        #section-mapa .status-dot.desenv {
+            background: #ed8936;
+        }
+
+        #section-mapa .status-dot.dsv {
+            background: #2f855a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tablet-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>🔋 85% 📶</span>
+        </div>
+
+        <div class="app-header">
+            <h1 class="header-title">
+                🌱 Produção do Viveiro
+            </h1>
+        </div>
+
+        <div class="main-content">
+            <!-- Produção (padrão) -->
+            <div id="section-producao" class="section" aria-hidden="false">
+                <div class="stats-card">
+                    <p class="stats-number">1.250</p>
+                    <p class="stats-label">Estoque Atual: mudas</p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="left-column">
+                        <div class="form-section">
+                            <input type="text" class="search-bar" placeholder="🔍 Buscar espécie..." id="search-species" />
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Espécie</label>
+                                    <input type="text" class="form-input" placeholder="Digite o nome da espécie" id="prod-species" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Quantidade</label>
+                                    <input type="number" class="form-input" placeholder="0" id="prod-quantity" />
+                                </div>
+                            </div>
+
+                            <div class="button-row">
+                                <button class="btn-primary" onclick="addSpecies()">
+                                    ➕ Adicionar Espécie
+                                </button>
+                                <button class="btn-secondary" onclick="generateReport()">
+                                    📊 Gerar Relatório
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="data-table">
+                        <div class="table-header">
+                            <h3 class="table-title">📋 Controle de Produção</h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Espécie</th>
+                                    <th>Produzidas</th>
+                                    <th>Em Estoque</th>
+                                </tr>
+                            </thead>
+                            <tbody id="speciesTable">
+                                <tr>
+                                    <td>
+                                        <span class="stock-indicator stock-high"></span>
+                                        <span class="species-badge">Ipê Amarelo</span>
+                                    </td>
+                                    <td>450</td>
+                                    <td>320</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="stock-indicator stock-medium"></span>
+                                        <span class="species-badge">Pau Brasil</span>
+                                    </td>
+                                    <td>280</td>
+                                    <td>180</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="stock-indicator stock-high"></span>
+                                        <span class="species-badge">Jatobá</span>
+                                    </td>
+                                    <td>350</td>
+                                    <td>290</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="stock-indicator stock-low"></span>
+                                        <span class="species-badge">Cedro</span>
+                                    </td>
+                                    <td>200</td>
+                                    <td>85</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="stock-indicator stock-medium"></span>
+                                        <span class="species-badge">Aroeira</span>
+                                    </td>
+                                    <td>180</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="stock-indicator stock-high"></span>
+                                        <span class="species-badge">Jacarandá</span>
+                                    </td>
+                                    <td>240</td>
+                                    <td>255</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doação -->
+            <div id="section-doacao" class="section" style="display:none;" aria-hidden="true">
+                <div class="content-grid">
+                    <div class="left-column">
+                        <div class="transparency-card">
+                           
+                            <p class="transparency-text">Transparência na Doação</p>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-title">📝 Nova Doação</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Espécie</label>
+                                    <input type="text" class="form-input" placeholder="Digite o nome da espécie" id="don-species-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Quantidade</label>
+                                    <input type="number" class="form-input" placeholder="0" id="don-quantity-input" />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Beneficiário</label>
+                                    <input type="text" class="form-input" placeholder="Nome do beneficiário" id="don-beneficiary-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Data</label>
+                                    <input type="date" class="form-input" id="don-date-input" />
+                                </div>
+                            </div>
+
+                            <button class="btn-primary" onclick="addDonation()">
+                                📄 Gerar Comprovante Digital
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="donations-section">
+                        <div class="section-header">
+                            <h3 class="section-title">📋 Doações Recentes</h3>
+                        </div>
+                        
+                        <div class="table-header recent-donations-header">
+                            <div>Espécie</div>
+                            <div>Quantidade</div>
+                            <div>Status</div>
+                        </div>
+
+                        <div class="donations-list" id="donations-list">
+                            <div class="donation-item">
+                                <div class="donation-info">
+                                    <div class="species-name">Ipê Amarelo</div>
+                                    <div class="donation-quantity">50 mudas</div>
+                                </div>
+                                <div class="status-chip status-comprovado">Comprovado</div>
+                            </div>
+                            <div class="donation-item">
+                                <div class="donation-info">
+                                    <div class="species-name">Pau Brasil</div>
+                                    <div class="donation-quantity">30 mudas</div>
+                                </div>
+                                <div class="status-chip status-entregue">Entregue</div>
+                            </div>
+                            <div class="donation-item">
+                                <div class="donation-info">
+                                    <div class="species-name">Jatobá</div>
+                                    <div class="donation-quantity">75 mudas</div>
+                                </div>
+                                <div class="status-chip status-pendente">Pendente</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mapa -->
+            <div id="section-mapa" class="section" style="display:none;" aria-hidden="true">
+                <div class="content-grid">
+                    <div class="map-section">
+                        <h3 class="section-title">🌍 Localização dos Plantios</h3>
+                        
+                        <div class="map-container" id="map-container">
+                            <div class="map-grid"></div>
+                            <div class="map-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #38a169;"></div>
+                                    <span>Plantios Ativos</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #ed8936;"></div>
+                                    <span>Em Desenvolvimento</span>
+                                </div>
+                            </div>
+
+                            <div class="map-pin" style="top: 15%; left: 25%;" onclick="showPinInfo('Ipê Amarelo', '12/09/2025', '-23.547, -46.635')">
+                                <div class="pin-tooltip">Ipê Amarelo - 12/09/2025</div>
+                            </div>
+                            <div class="map-pin" style="top: 35%; left: 60%;" onclick="showPinInfo('Pau Brasil', '08/09/2025', '-23.551, -46.642')">
+                                <div class="pin-tooltip">Pau Brasil - 08/09/2025</div>
+                            </div>
+                            <div class="map-pin" style="top: 60%; left: 40%;" onclick="showPinInfo('Jatobá', '05/09/2025', '-23.555, -46.628')">
+                                <div class="pin-tooltip">Jatobá - 05/09/2025</div>
+                            </div>
+                            <div class="map-pin" style="top: 25%; left: 75%;" onclick="showPinInfo('Cedro', '10/09/2025', '-23.542, -46.651')">
+                                <div class="pin-tooltip">Cedro - 10/09/2025</div>
+                            </div>
+                            <div class="map-pin" style="top: 70%; left: 20%;" onclick="showPinInfo('Aroeira', '15/09/2025', '-23.562, -46.618')">
+                                <div class="pin-tooltip">Aroeira - 15/09/2025</div>
+                            </div>
+                        </div>
+
+                        <button class="gps-button" onclick="registerPlanting()">📍 Registrar Plantio (GPS)</button>
+                    </div>
+
+                    <div class="controls-section">
+                        <div class="upload-section">
+                            <h3 class="section-title">📷 Documentação</h3>
+                            <div class="upload-area" onclick="document.getElementById('photo-input').click()">
+                                <span class="upload-icon">📷</span>
+                                <p class="upload-text">Enviar Foto do Plantio</p>
+                            </div>
+                            <input type="file" id="photo-input" class="hidden-input" accept="image/*" onchange="handlePhotoUpload(event)">
+                            <div id="photo-preview" class="photo-preview" style="display: none;">
+                                <img id="preview-image" class="preview-image" alt="Preview da foto">
+                            </div>
+                        </div>
+
+                        <div class="info-card" id="info-card">
+                            <h3 class="card-title">📋 Informações do Plantio</h3>
+                            <div class="info-item"><span class="info-label">Espécie:</span><span class="info-value" id="species-info">Ipê Amarelo</span></div>
+                            <div class="info-item"><span class="info-label">Data:</span><span class="info-value" id="date-info">12/09/2025</span></div>
+                            <div class="info-item"><span class="info-label">Localização:</span><span class="info-value coordinates" id="location-info">-23.547, -46.635</span></div>
+                            <div class="info-item"><span class="info-label">Status:</span><span class="info-value" id="status-info">🌱 Ativo</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Relatório -->
+            <div id="section-relatorio" class="section" style="display:none;" aria-hidden="true">
+                <div class="indicators-row">
+                    <div class="indicator-card produced"><p class="indicator-number">12.500</p><p class="indicator-label">Mudas Produzidas</p></div>
+                    <div class="indicator-card donated"><p class="indicator-number">1.240</p><p class="indicator-label">Mudas Doadas</p></div>
+                    <div class="indicator-card planted"><p class="indicator-number">980</p><p class="indicator-label">Mudas Plantadas</p></div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="charts-section">
+                        <div class="charts-row">
+                            <div class="chart-card">
+                                <h3 class="chart-title">🥧 Distribuição por Espécie</h3>
+                                <div class="chart-container"><div class="pie-chart" onmouseover="showTooltip(event, 'Ipê: 35%, Pau Brasil: 22%, Jatobá: 20%, Cedro: 12%, Outros: 11%')" onmouseout="hideTooltip()"></div></div>
+                                <div class="chart-legend">
+                                    <div class="legend-item"><div class="legend-color" style="background: #38a169;"></div><span>Ipê (35%)</span></div>
+                                    <div class="legend-item"><div class="legend-color" style="background: #4fd1c7;"></div><span>Pau Brasil (22%)</span></div>
+                                    <div class="legend-item"><div class="legend-color" style="background: #2f855a;"></div><span>Jatobá (20%)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="chart-card">
+                                <h3 class="chart-title">📊 Doações Mensais</h3>
+                                <div class="chart-container">
+                                    <div class="bar-chart">
+                                        <div class="bar" style="height: 60%;" onmouseover="showTooltip(event, 'Jan: 180 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Jan</div></div>
+                                        <div class="bar" style="height: 80%;" onmouseover="showTooltip(event, 'Fev: 240 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Fev</div></div>
+                                        <div class="bar" style="height: 45%;" onmouseover="showTooltip(event, 'Mar: 135 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Mar</div></div>
+                                        <div class="bar" style="height: 90%;" onmouseover="showTooltip(event, 'Abr: 270 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Abr</div></div>
+                                        <div class="bar" style="height: 70%;" onmouseover="showTooltip(event, 'Mai: 210 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Mai</div></div>
+                                        <div class="bar" style="height: 55%;" onmouseover="showTooltip(event, 'Jun: 165 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Jun</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chart-card full-width-chart">
+                            <h3 class="chart-title">📈 Plantios ao Longo do Ano</h3>
+                            <div class="chart-container">
+                                <svg class="line-chart" viewBox="0 0 300 120">
+                                    <defs>
+                                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#38a169;stop-opacity:0.3" /><stop offset="100%" style="stop-color:#38a169;stop-opacity:0" /></linearGradient>
+                                    </defs>
+                                    <path class="line-area" d="M20,80 L60,60 L100,70 L140,45 L180,50 L220,35 L260,40 L280,30 L280,100 L20,100 Z" />
+                                    <path class="line-path" d="M20,80 L60,60 L100,70 L140,45 L180,50 L220,35 L260,40 L280,30" />
+                                    <circle class="line-point" cx="20" cy="80" r="4" onmouseover="showTooltip(event, 'Jan: 45 plantios')" onmouseout="hideTooltip()" />
+                                    <circle class="line-point" cx="60" cy="60" r="4" onmouseover="showTooltip(event, 'Fev: 65 plantios')" onmouseout="hideTooltip()" />
+                                    <circle class="line-point" cx="100" cy="70" r="4" onmouseover="showTooltip(event, 'Mar: 55 plantios')" onmouseout="hideTooltip()" />
+                                    <circle class="line-point" cx="140" cy="45" r="4" onmouseover="showTooltip(event, 'Abr: 80 plantios')" onmouseout="hideTooltip()" />
+                                    <circle class="line-point" cx="180" cy="50" r="4" onmouseover="showTooltip(event, 'Mai: 75 plantios')" onmouseout="hideTooltip()" />
+                                    <circle class="line-point" cx="220" cy="35" r="4" onmouseover="showTooltip(event, 'Jun: 90 plantios')" onmouseout="hideTooltip()" />
+                                    <circle class="line-point" cx="260" cy="40" r="4" onmouseover="showTooltip(event, 'Jul: 85 plantios')" onmouseout="hideTooltip()" />
+                                    <circle class="line-point" cx="280" cy="30" r="4" onmouseover="showTooltip(event, 'Ago: 95 plantios')" onmouseout="hideTooltip()" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="map-section">
+                        <h3 class="chart-title">🗺️ Áreas de Plantio</h3>
+                        <div class="map-container">
+                            <div class="map-area" style="top: 15%; left: 20%; width: 25%; height: 20%;" onmouseover="showTooltip(event, 'Zona Norte: 280 mudas plantadas')" onmouseout="hideTooltip()"></div>
+                            <div class="map-area" style="top: 45%; left: 15%; width: 30%; height: 25%;" onmouseover="showTooltip(event, 'Zona Central: 420 mudas plantadas')" onmouseout="hideTooltip()"></div>
+                            <div class="map-area" style="top: 25%; left: 60%; width: 20%; height: 30%;" onmouseover="showTooltip(event, 'Zona Leste: 180 mudas plantadas')" onmouseout="hideTooltip()"></div>
+                            <div class="map-area" style="top: 70%; left: 45%; width: 35%; height: 20%;" onmouseover="showTooltip(event, 'Zona Sul: 320 mudas plantadas')" onmouseout="hideTooltip()"></div>
+                        </div>
+                        <button class="export-button" onclick="exportReport()">📄 Exportar Relatório (PDF/Excel)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="navigateTo('producao')">
+                <div class="nav-icon">🌱</div>
+                <div class="nav-label">Produção</div>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('doacao')">
+                <div class="nav-icon">🤝</div>
+                <div class="nav-label">Doação</div>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('mapa')">
+                <div class="nav-icon">🗺️</div>
+                <div class="nav-label">Mapa</div>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('relatorio')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-label">Relatório</div>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('dashboard')">
+                <div class="nav-icon">📈</div>
+                <div class="nav-label">Dashboard</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // --- Navegação entre seções ---
+        function navigateTo(section) {
+            // esconder todas as seções
+            document.querySelectorAll('.section').forEach(s => {
+                s.style.display = 'none';
+                s.setAttribute('aria-hidden', 'true');
+            });
+
+            // remover active de todos itens
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            // mostrar a seção selecionada
+            const el = document.getElementById('section-' + section);
+            if (el) {
+                el.style.display = '';
+                el.setAttribute('aria-hidden', 'false');
+            }
+
+            // marcar botão ativo
+            try { event.currentTarget.classList.add('active'); } catch (e) {}
+
+            // ajustes por seção
+            if (section === 'doacao') {
+                // setar data atual no formulário de doação
+                const dateInput = document.getElementById('don-date-input');
+                if (dateInput && !dateInput.value) dateInput.valueAsDate = new Date();
+            }
+
+            if (section === 'producao') {
+                // foco no campo de espécie
+                const f = document.getElementById('prod-species'); if (f) f.focus();
+            }
+        }
+
+        // --- Produção: adicionar espécie ---
+        function addSpecies() {
+            const speciesInput = document.getElementById('prod-species');
+            const quantityInput = document.getElementById('prod-quantity');
+
+            if (speciesInput && quantityInput && speciesInput.value && quantityInput.value) {
+                const tableBody = document.getElementById('speciesTable');
+                const newRow = document.createElement('tr');
+
+                const q = parseInt(quantityInput.value, 10) || 0;
+                const stockClass = q > 200 ? 'stock-high' : q > 100 ? 'stock-medium' : 'stock-low';
+
+                newRow.innerHTML = `
+                    <td>
+                        <span class="stock-indicator ${stockClass}"></span>
+                        <span class="species-badge">${escapeHtml(speciesInput.value)}</span>
+                    </td>
+                    <td>${q}</td>
+                    <td>${q}</td>
+                `;
+
+                tableBody.appendChild(newRow);
+
+                // atualizar total
+                const currentStockEl = document.querySelector('.stats-number');
+                const currentStock = currentStockEl ? parseInt(currentStockEl.textContent.replace(/[.,]/g, '')) : 0;
+                const newStock = currentStock + q;
+                if (currentStockEl) currentStockEl.textContent = newStock.toLocaleString('pt-BR');
+
+                // limpar
+                speciesInput.value = '';
+                quantityInput.value = '';
+
+                newRow.style.backgroundColor = '#f0fff4';
+                setTimeout(() => newRow.style.backgroundColor = '', 2000);
+            }
+        }
+
+        function generateReport() {
+            alert('📊 Relatório sendo gerado!\n\nO relatório completo será enviado para seu email em alguns minutos.');
+        }
+
+        // --- Doação ---
+        function addDonation() {
+            const species = document.getElementById('don-species-input').value;
+            const quantity = document.getElementById('don-quantity-input').value;
+            const beneficiary = document.getElementById('don-beneficiary-input').value;
+            const date = document.getElementById('don-date-input').value;
+            if (species && quantity && beneficiary && date) {
+                const donationsList = document.getElementById('donations-list');
+                const newDonation = document.createElement('div');
+                newDonation.className = 'donation-item';
+                newDonation.innerHTML = `
+                    <div class="donation-info">
+                        <div class="species-name">${escapeHtml(species)}</div>
+                        <div class="donation-quantity">${parseInt(quantity,10)} mudas</div>
+                    </div>
+                    <div class="status-chip status-pendente">Pendente</div>
+                `;
+                donationsList.insertBefore(newDonation, donationsList.firstChild);
+                generateCertificate(species, quantity, beneficiary, date);
+
+                document.getElementById('don-species-input').value = '';
+                document.getElementById('don-quantity-input').value = '';
+                document.getElementById('don-beneficiary-input').value = '';
+                document.getElementById('don-date-input').valueAsDate = new Date();
+
+                newDonation.style.backgroundColor = '#f0fff4';
+                setTimeout(() => newDonation.style.backgroundColor = '', 3000);
+            } else {
+                alert('⚠️ Por favor, preencha todos os campos para gerar o comprovante digital.');
+            }
+        }
+
+        function generateCertificate(species, quantity, beneficiary, date) {
+            const formattedDate = new Date(date).toLocaleDateString('pt-BR');
+            const certificateNumber = Math.random().toString(36).substr(2, 9).toUpperCase();
+            alert(`📄 Comprovante Digital Gerado!\n\n🌱 Espécie: ${species}\n📊 Quantidade: ${quantity} mudas\n👤 Beneficiário: ${beneficiary}\n📅 Data: ${formattedDate}\n🔢 Protocolo: ${certificateNumber}\n\n✅ O comprovante foi registrado no sistema e enviado por email.\n🔗 Link de verificação disponível no painel de relatórios.`);
+        }
+
+        // --- Mapa ---
+        function showPinInfo(species, date, location) {
+            const speciesEl = document.getElementById('species-info');
+            const dateEl = document.getElementById('date-info');
+            const locEl = document.getElementById('location-info');
+            const statusEl = document.getElementById('status-info');
+            if (speciesEl) speciesEl.textContent = species;
+            if (dateEl) dateEl.textContent = date;
+            if (locEl) locEl.textContent = location;
+            if (statusEl) {
+                const statuses = ['🌱 Ativo', '🌿 Crescendo', '🌳 Desenvolvido', '✅ Estabelecido'];
+                statusEl.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+            }
+
+            const infoCard = document.getElementById('info-card');
+            if (infoCard) {
+                infoCard.style.background = '#f0fff4';
+                infoCard.style.borderColor = '#38a169';
+                setTimeout(() => { infoCard.style.background = 'white'; infoCard.style.borderColor = '#e2e8f0'; }, 2000);
+            }
+        }
+
+        function registerPlanting() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude.toFixed(3);
+                    const lng = position.coords.longitude.toFixed(3);
+                    const mapContainer = document.getElementById('map-container');
+                    const newPin = document.createElement('div');
+                    newPin.className = 'map-pin';
+                    newPin.style.top = Math.random() * 80 + 10 + '%';
+                    newPin.style.left = Math.random() * 80 + 10 + '%';
+                    newPin.onclick = () => showPinInfo('Nova Espécie', new Date().toLocaleDateString('pt-BR'), `${lat}, ${lng}`);
+                    const tooltip = document.createElement('div'); tooltip.className = 'pin-tooltip'; tooltip.textContent = `Novo Plantio - ${new Date().toLocaleDateString('pt-BR')}`; newPin.appendChild(tooltip);
+                    mapContainer.appendChild(newPin);
+                    showPinInfo('Novo Plantio', new Date().toLocaleDateString('pt-BR'), `${lat}, ${lng}`);
+                    alert(`📍 Localização GPS Capturada!\n\n🌍 Coordenadas: ${lat}, ${lng}\n📅 Data: ${new Date().toLocaleDateString('pt-BR')}\n⏰ Hora: ${new Date().toLocaleTimeString('pt-BR')}\n\n✅ Plantio registrado com sucesso!\n📷 Não esqueça de enviar a foto do plantio.`);
+                }, function(error) { alert('❌ Erro ao acessar GPS. Verifique as permissões de localização.'); });
+            } else {
+                alert('❌ GPS não disponível neste dispositivo.');
+            }
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('photo-preview');
+                    const image = document.getElementById('preview-image');
+                    image.src = e.target.result; preview.style.display = 'block';
+                    const uploadArea = document.querySelector('.upload-area');
+                    uploadArea.innerHTML = `<span class="upload-icon">✅</span><p class="upload-text">Foto Enviada com Sucesso!</p>`;
+                    uploadArea.style.background = '#f0fff4'; uploadArea.style.borderColor = '#38a169';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // --- Relatório: tooltips e export ---
+        function showTooltip(event, text) {
+            let tooltip = document.getElementById('tooltip');
+            if (!tooltip) {
+                tooltip = document.createElement('div'); tooltip.id = 'tooltip'; tooltip.className = 'tooltip'; document.body.appendChild(tooltip);
+            }
+            tooltip.textContent = text; tooltip.style.opacity = '1'; tooltip.style.left = (event.pageX + 10) + 'px'; tooltip.style.top = (event.pageY - 30) + 'px';
+        }
+
+        function hideTooltip() { const t = document.getElementById('tooltip'); if (t) t.style.opacity = '0'; }
+
+        function exportReport() {
+            const options = ['📊 Relatório Completo (PDF)', '📈 Dados de Produção (Excel)', '🤝 Relatório de Doações (PDF)', '🗺️ Mapa de Plantios (PDF)', '📋 Resumo Executivo (PDF)'];
+            const selectedOption = options[Math.floor(Math.random() * options.length)];
+            alert(`📄 Exportando Relatório...\n\n${selectedOption}\n\n✅ Relatório gerado com sucesso!\n📧 Arquivo enviado para seu email\n📱 Disponível também na seção Downloads`);
+        }
+
+        // --- Utilitários ---
+        function escapeHtml(text) { return text.replace(/[&<>"']/g, function (m) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[m]; }); }
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // ligar busca de produção
+            const search = document.getElementById('search-species');
+            if (search) search.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase();
+                document.querySelectorAll('#speciesTable tr').forEach(row => {
+                    const name = row.querySelector('.species-badge').textContent.toLowerCase();
+                    row.style.display = name.includes(term) ? '' : 'none';
+                });
+            });
+
+            // submit por Enter
+            document.addEventListener('keypress', function(e) { if (e.key === 'Enter') { const el = document.activeElement; if (el && el.classList.contains('form-input')) { if (document.getElementById('don-species-input') && document.getElementById('don-species-input') === el) addDonation(); else addSpecies(); } } });
+
+            // status simulation for donations
+            setInterval(() => {
+                const pending = document.querySelectorAll('.status-pendente');
+                if (pending.length > 0 && Math.random() > 0.95) {
+                    const one = pending[Math.floor(Math.random() * pending.length)];
+                    one.className = 'status-chip status-entregue'; one.textContent = 'Entregue';
+                }
+            }, 5000);
+
+            // random pin animation
+            setInterval(() => {
+                const pins = document.querySelectorAll('.map-pin');
+                if (Math.random() > 0.98 && pins.length > 0) { const p = pins[Math.floor(Math.random() * pins.length)]; p.style.transform = 'rotate(-45deg) scale(1.1)'; setTimeout(() => p.style.transform = 'rotate(-45deg) scale(1)', 1000); }
+            }, 2000);
+
+            // iniciar seção padrão
+            navigateTo('producao');
+
+            // set default date for donation
+            const donDate = document.getElementById('don-date-input'); if (donDate) donDate.valueAsDate = new Date();
+        });
+    </script>
+</body>
+
+</html>
