@@ -41,14 +41,37 @@
         }
 
         .app-header {
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            padding: 20px 32px;
+            position: relative;
+            background: none;
+            padding: 32px 32px 24px 32px;
             color: white;
             box-shadow: 0 4px 20px rgba(72, 187, 120, 0.3);
+            overflow: hidden;
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg width="800" height="120" xmlns="http://www.w3.org/2000/svg"><g opacity="0.7"> <text x="40" y="60" font-size="48">🌱</text> <text x="180" y="40" font-size="36">🌿</text> <text x="320" y="80" font-size="44">🌳</text> <text x="500" y="50" font-size="38">🌱</text> <text x="650" y="90" font-size="40">🌿</text> <text x="720" y="30" font-size="36">🌳</text> </g></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .app-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(56, 161, 105, 0.85) 0%, rgba(72, 187, 120, 0.85) 100%);
         }
 
         .header-title {
-            font-size: 28px;
+            position: relative;
+            z-index: 2;
+            font-size: 32px;
             font-weight: 700;
             margin: 0;
             display: flex;
@@ -554,71 +577,26 @@
 
         #section-mapa .map-container {
             width: 100%;
-            height: 320px;
-            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 50%, #81e6d9 100%);
+            height: 340px;
             border-radius: 12px;
             position: relative;
             overflow: hidden;
             margin-bottom: 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             border: 1px solid #e2e8f0;
+            background: none;
+            padding: 0;
+            display: flex;
+            align-items: stretch;
         }
 
-        #section-mapa .map-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
+        #realmap {
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-            background-size: 28px 28px;
+            min-height: 300px;
+            border-radius: 12px;
             z-index: 1;
-        }
-
-        #section-mapa .map-pin {
-            position: absolute;
-            width: 36px;
-            height: 36px;
-            left: 10%;
-            top: 10%;
-            background: none;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        #section-mapa .map-pin svg {
-            width: 32px;
-            height: 32px;
-            display: block;
-        }
-
-        #section-mapa .map-pin.pin2 {
-            left: 30%;
-            top: 25%;
-        }
-
-        #section-mapa .map-pin.pin3 {
-            left: 60%;
-            top: 20%;
-        }
-
-        #section-mapa .map-pin.pin4 {
-            left: 40%;
-            top: 60%;
-        }
-
-        #section-mapa .map-pin.pin5 {
-            left: 70%;
-            top: 40%;
-        }
-
-        #section-mapa .map-pin.pin6 {
-            left: 20%;
-            top: 70%;
+            background: #e6fffa;
         }
 
         #section-mapa .map-legend {
@@ -812,7 +790,331 @@
         #section-mapa .status-dot.dsv {
             background: #2f855a;
         }
+
+        /* RELATÓRIO - Layout igual ao print */
+        #section-relatorio .main-content {
+            padding: 32px 32px 24px 32px;
+            background: #f8fafc;
+        }
+
+        #section-relatorio .export-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        #section-relatorio .export-btn {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        #section-relatorio .export-btn:hover {
+            background: #2f855a;
+        }
+
+        #section-relatorio .indicators-row {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        #section-relatorio .indicator-card {
+            flex: 1;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+            border: 2px solid #e2e8f0;
+            text-align: center;
+            padding: 32px 0 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #section-relatorio .indicator-number {
+            font-size: 38px;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        #section-relatorio .indicator-label {
+            font-size: 16px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        #section-relatorio .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        #section-relatorio .chart-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+            border: 2px solid #e2e8f0;
+            padding: 24px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 260px;
+        }
+
+        #section-relatorio .chart-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-relatorio .chart-legend {
+            margin-top: 12px;
+            font-size: 14px;
+            display: flex;
+            gap: 18px;
+        }
+
+        #section-relatorio .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        #section-relatorio .bar-chart {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        #section-relatorio .bar {
+            width: 28px;
+            background: linear-gradient(to top, #38a169, #68d391);
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        #section-relatorio .bar-label {
+            position: absolute;
+            bottom: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        #section-relatorio .area-plantio {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border-radius: 12px;
+            position: relative;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #section-relatorio .plantio-area {
+            position: absolute;
+            background: rgba(56,161,105,0.5);
+            border-radius: 8px;
+            border: 2px solid #38a169;
+        }
+
+        #section-relatorio .full-width-chart {
+            grid-column: 1 / -1;
+            margin-top: 24px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            border: 2px solid #e2e8f0;
+            padding: 24px 20px 20px 20px;
+        }
+
+        #section-relatorio .line-chart {
+            width: 100%;
+            height: 120px;
+            margin-top: 8px;
+        }
+
+        /* DASHBOARD - Layout igual ao print */
+        #section-dashboard .main-content {
+            padding: 32px 32px 24px 32px;
+            background: #f8fafc;
+        }
+
+        #section-dashboard .indicators-row {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        #section-dashboard .indicator-card {
+            flex: 1;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            border: 2px solid #e2e8f0;
+            text-align: center;
+            padding: 32px 0 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #section-dashboard .indicator-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        #section-dashboard .indicator-number {
+            font-size: 38px;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        #section-dashboard .indicator-label {
+            font-size: 16px;
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        #section-dashboard .indicator-variation {
+            font-size: 14px;
+            color: #38a169;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        #section-dashboard .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        #section-dashboard .chart-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            border: 2px solid #e2e8f0;
+            padding: 24px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 220px;
+        }
+
+        #section-dashboard .chart-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #section-dashboard .chart-legend {
+            margin-top: 12px;
+            font-size: 14px;
+            display: flex;
+            gap: 18px;
+        }
+
+        #section-dashboard .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        #section-dashboard .bar-chart {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        #section-dashboard .area-plantio {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border-radius: 12px;
+            position: relative;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #section-dashboard .plantio-area {
+            position: absolute;
+            background: rgba(56,161,105,0.5);
+            border-radius: 8px;
+            border: 2px solid #38a169;
+        }
+
+        #section-dashboard .line-chart {
+            width: 100%;
+            height: 80px;
+            margin-top: 8px;
+        }
+
+        #section-dashboard .chart-canvas, #section-relatorio .chart-canvas {
+            width: 100% !important;
+            max-width: 320px;
+            height: 180px !important;
+            margin: 0 auto;
+            display: block;
+        }
     </style>
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 </head>
 
 <body>
@@ -1015,32 +1317,10 @@
                         <h3 class="section-title">🌍 Localização dos Plantios</h3>
                         
                         <div class="map-container" id="map-container">
-                            <div class="map-grid"></div>
+                            <div id="realmap"></div>
                             <div class="map-legend">
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #38a169;"></div>
-                                    <span>Plantios Ativos</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #ed8936;"></div>
-                                    <span>Em Desenvolvimento</span>
-                                </div>
-                            </div>
-
-                            <div class="map-pin" style="top: 15%; left: 25%;" onclick="showPinInfo('Ipê Amarelo', '12/09/2025', '-23.547, -46.635')">
-                                <div class="pin-tooltip">Ipê Amarelo - 12/09/2025</div>
-                            </div>
-                            <div class="map-pin" style="top: 35%; left: 60%;" onclick="showPinInfo('Pau Brasil', '08/09/2025', '-23.551, -46.642')">
-                                <div class="pin-tooltip">Pau Brasil - 08/09/2025</div>
-                            </div>
-                            <div class="map-pin" style="top: 60%; left: 40%;" onclick="showPinInfo('Jatobá', '05/09/2025', '-23.555, -46.628')">
-                                <div class="pin-tooltip">Jatobá - 05/09/2025</div>
-                            </div>
-                            <div class="map-pin" style="top: 25%; left: 75%;" onclick="showPinInfo('Cedro', '10/09/2025', '-23.542, -46.651')">
-                                <div class="pin-tooltip">Cedro - 10/09/2025</div>
-                            </div>
-                            <div class="map-pin" style="top: 70%; left: 20%;" onclick="showPinInfo('Aroeira', '15/09/2025', '-23.562, -46.618')">
-                                <div class="pin-tooltip">Aroeira - 15/09/2025</div>
+                                <div class="legend-item"><span class="legend-dot ativo"></span>Plantios Ativos</div>
+                                <div class="legend-item"><span class="legend-dot desenv"></span>Em Desenvolvimento</div>
                             </div>
                         </div>
 
@@ -1073,71 +1353,103 @@
 
             <!-- Relatório -->
             <div id="section-relatorio" class="section" style="display:none;" aria-hidden="true">
-                <div class="indicators-row">
-                    <div class="indicator-card produced"><p class="indicator-number">12.500</p><p class="indicator-label">Mudas Produzidas</p></div>
-                    <div class="indicator-card donated"><p class="indicator-number">1.240</p><p class="indicator-label">Mudas Doadas</p></div>
-                    <div class="indicator-card planted"><p class="indicator-number">980</p><p class="indicator-label">Mudas Plantadas</p></div>
-                </div>
-
-                <div class="content-grid">
-                    <div class="charts-section">
-                        <div class="charts-row">
-                            <div class="chart-card">
-                                <h3 class="chart-title">🥧 Distribuição por Espécie</h3>
-                                <div class="chart-container"><div class="pie-chart" onmouseover="showTooltip(event, 'Ipê: 35%, Pau Brasil: 22%, Jatobá: 20%, Cedro: 12%, Outros: 11%')" onmouseout="hideTooltip()"></div></div>
-                                <div class="chart-legend">
-                                    <div class="legend-item"><div class="legend-color" style="background: #38a169;"></div><span>Ipê (35%)</span></div>
-                                    <div class="legend-item"><div class="legend-color" style="background: #4fd1c7;"></div><span>Pau Brasil (22%)</span></div>
-                                    <div class="legend-item"><div class="legend-color" style="background: #2f855a;"></div><span>Jatobá (20%)</span></div>
-                                </div>
-                            </div>
-
-                            <div class="chart-card">
-                                <h3 class="chart-title">📊 Doações Mensais</h3>
-                                <div class="chart-container">
-                                    <div class="bar-chart">
-                                        <div class="bar" style="height: 60%;" onmouseover="showTooltip(event, 'Jan: 180 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Jan</div></div>
-                                        <div class="bar" style="height: 80%;" onmouseover="showTooltip(event, 'Fev: 240 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Fev</div></div>
-                                        <div class="bar" style="height: 45%;" onmouseover="showTooltip(event, 'Mar: 135 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Mar</div></div>
-                                        <div class="bar" style="height: 90%;" onmouseover="showTooltip(event, 'Abr: 270 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Abr</div></div>
-                                        <div class="bar" style="height: 70%;" onmouseover="showTooltip(event, 'Mai: 210 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Mai</div></div>
-                                        <div class="bar" style="height: 55%;" onmouseover="showTooltip(event, 'Jun: 165 mudas')" onmouseout="hideTooltip()"><div class="bar-label">Jun</div></div>
-                                    </div>
-                                </div>
+                <div class="main-content">
+                    <div class="export-row">
+                        <button class="export-btn" onclick="exportExcel()">📥 Exportar Excel</button>
+                        <button class="export-btn" onclick="downloadCharts()">📸 Baixar Gráficos</button>
+                    </div>
+                    <div class="indicators-row">
+                        <div class="indicator-card">
+                            <div class="indicator-number">12.500</div>
+                            <div class="indicator-label">Mudas Produzidas</div>
+                        </div>
+                        <div class="indicator-card">
+                            <div class="indicator-number">1.240</div>
+                            <div class="indicator-label">Mudas Doadas</div>
+                        </div>
+                        <div class="indicator-card">
+                            <div class="indicator-number">980</div>
+                            <div class="indicator-label">Mudas Plantadas</div>
+                        </div>
+                    </div>
+                    <div class="content-grid">
+                        <div class="chart-card">
+                            <div class="chart-title">🍃 Distribuição por Espécie</div>
+                            <canvas id="relatorioDonutChart" class="chart-canvas"></canvas>
+                            <div class="chart-legend">
+                                <span><span class="legend-color" style="background:#38a169"></span>Ipê (35%)</span>
+                                <span><span class="legend-color" style="background:#4fd1c7"></span>Pau Brasil (22%)</span>
+                                <span><span class="legend-color" style="background:#2f855a"></span>Jatobá (20%)</span>
                             </div>
                         </div>
-
-                        <div class="chart-card full-width-chart">
-                            <h3 class="chart-title">📈 Plantios ao Longo do Ano</h3>
-                            <div class="chart-container">
-                                <svg class="line-chart" viewBox="0 0 300 120">
-                                    <defs>
-                                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#38a169;stop-opacity:0.3" /><stop offset="100%" style="stop-color:#38a169;stop-opacity:0" /></linearGradient>
-                                    </defs>
-                                    <path class="line-area" d="M20,80 L60,60 L100,70 L140,45 L180,50 L220,35 L260,40 L280,30 L280,100 L20,100 Z" />
-                                    <path class="line-path" d="M20,80 L60,60 L100,70 L140,45 L180,50 L220,35 L260,40 L280,30" />
-                                    <circle class="line-point" cx="20" cy="80" r="4" onmouseover="showTooltip(event, 'Jan: 45 plantios')" onmouseout="hideTooltip()" />
-                                    <circle class="line-point" cx="60" cy="60" r="4" onmouseover="showTooltip(event, 'Fev: 65 plantios')" onmouseout="hideTooltip()" />
-                                    <circle class="line-point" cx="100" cy="70" r="4" onmouseover="showTooltip(event, 'Mar: 55 plantios')" onmouseout="hideTooltip()" />
-                                    <circle class="line-point" cx="140" cy="45" r="4" onmouseover="showTooltip(event, 'Abr: 80 plantios')" onmouseout="hideTooltip()" />
-                                    <circle class="line-point" cx="180" cy="50" r="4" onmouseover="showTooltip(event, 'Mai: 75 plantios')" onmouseout="hideTooltip()" />
-                                    <circle class="line-point" cx="220" cy="35" r="4" onmouseover="showTooltip(event, 'Jun: 90 plantios')" onmouseout="hideTooltip()" />
-                                    <circle class="line-point" cx="260" cy="40" r="4" onmouseover="showTooltip(event, 'Jul: 85 plantios')" onmouseout="hideTooltip()" />
-                                    <circle class="line-point" cx="280" cy="30" r="4" onmouseover="showTooltip(event, 'Ago: 95 plantios')" onmouseout="hideTooltip()" />
-                                </svg>
+                        <div class="chart-card">
+                            <div class="chart-title">📊 Doações Mensais</div>
+                            <canvas id="relatorioBarChart" class="chart-canvas"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-title">🗺️ Áreas de Plantio</div>
+                            <div class="area-plantio">
+                                <div class="plantio-area" style="top:20%;left:15%;width:20%;height:30%;"></div>
+                                <div class="plantio-area" style="top:50%;left:40%;width:25%;height:20%;"></div>
+                                <div class="plantio-area" style="top:30%;left:70%;width:15%;height:35%;"></div>
                             </div>
                         </div>
                     </div>
+                    <div class="full-width-chart">
+                        <div class="chart-title">🌱 Plantios ao Longo do Ano</div>
+                        <canvas id="relatorioLineChart" class="chart-canvas" style="max-width:600px;height:120px;"></canvas>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="map-section">
-                        <h3 class="chart-title">🗺️ Áreas de Plantio</h3>
-                        <div class="map-container">
-                            <div class="map-area" style="top: 15%; left: 20%; width: 25%; height: 20%;" onmouseover="showTooltip(event, 'Zona Norte: 280 mudas plantadas')" onmouseout="hideTooltip()"></div>
-                            <div class="map-area" style="top: 45%; left: 15%; width: 30%; height: 25%;" onmouseover="showTooltip(event, 'Zona Central: 420 mudas plantadas')" onmouseout="hideTooltip()"></div>
-                            <div class="map-area" style="top: 25%; left: 60%; width: 20%; height: 30%;" onmouseover="showTooltip(event, 'Zona Leste: 180 mudas plantadas')" onmouseout="hideTooltip()"></div>
-                            <div class="map-area" style="top: 70%; left: 45%; width: 35%; height: 20%;" onmouseover="showTooltip(event, 'Zona Sul: 320 mudas plantadas')" onmouseout="hideTooltip()"></div>
+            <!-- Dashboard -->
+            <div id="section-dashboard" class="section" style="display:none;" aria-hidden="true">
+                <div class="main-content">
+                    <div class="indicators-row">
+                        <div class="indicator-card">
+                            <span class="indicator-icon">🌱</span>
+                            <div class="indicator-number">12.500</div>
+                            <div class="indicator-label">Total de Mudas Produzidas</div>
+                            <div class="indicator-variation">⬆ +8% este mês</div>
                         </div>
-                        <button class="export-button" onclick="exportReport()">📄 Exportar Relatório (PDF/Excel)</button>
+                        <div class="indicator-card">
+                            <span class="indicator-icon">🤝</span>
+                            <div class="indicator-number">1.240</div>
+                            <div class="indicator-label">Doações Realizadas</div>
+                            <div class="indicator-variation">⬆ +15% este mês</div>
+                        </div>
+                        <div class="indicator-card">
+                            <span class="indicator-icon">🌳</span>
+                            <div class="indicator-number">980</div>
+                            <div class="indicator-label">Plantios Registrados</div>
+                            <div class="indicator-variation">⬆ +12% este mês</div>
+                        </div>
+                    </div>
+                    <div class="content-grid">
+                        <div class="chart-card">
+                            <div class="chart-title">📈 Evolução Mensal</div>
+                            <canvas id="dashboardLineChart" class="chart-canvas"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-title">🍃 Distribuição por Espécie</div>
+                            <canvas id="dashboardDonutChart" class="chart-canvas"></canvas>
+                            <div class="chart-legend">
+                                <span><span class="legend-color" style="background:#38a169"></span>Ipê (35%)</span>
+                                <span><span class="legend-color" style="background:#4fd1c7"></span>Pau Brasil (22%)</span>
+                                <span><span class="legend-color" style="background:#2f855a"></span>Jatobá (20%)</span>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-title">🗺️ Mapa Interativo</div>
+                            <div style="font-size:14px;color:#4a5568;margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🟢</span> Áreas Reflorestadas</div>
+                            <div class="area-plantio">
+                                <span style="position:absolute;left:20%;top:30%;font-size:28px;">📍</span>
+                                <span style="position:absolute;left:60%;top:20%;font-size:28px;">📍</span>
+                                <span style="position:absolute;left:40%;top:60%;font-size:28px;">📍</span>
+                                <span style="position:absolute;left:70%;top:40%;font-size:28px;">📍</span>
+                                <span style="position:absolute;left:30%;top:70%;font-size:28px;">📍</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1167,6 +1479,10 @@
         </div>
     </div>
 
+    <!-- Leaflet.js JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Navegação entre seções ---
         function navigateTo(section) {
@@ -1200,6 +1516,9 @@
                 // foco no campo de espécie
                 const f = document.getElementById('prod-species'); if (f) f.focus();
             }
+
+            // chama o initLeafletMap ao navegar para a aba de mapas
+            if (section === 'mapa') setTimeout(initLeafletMap, 200);
         }
 
         // --- Produção: adicionar espécie ---
@@ -1358,6 +1677,31 @@
             alert(`📄 Exportando Relatório...\n\n${selectedOption}\n\n✅ Relatório gerado com sucesso!\n📧 Arquivo enviado para seu email\n📱 Disponível também na seção Downloads`);
         }
 
+        function exportExcel() {
+            alert('Exportação Excel simulada! (implementar SheetJS para export real)');
+        }
+
+        function downloadCharts() {
+            // Exemplo: baixar o gráfico de pizza como PNG
+            const svg = document.querySelector('#section-relatorio svg');
+            if (!svg) return alert('Gráfico não encontrado!');
+            const serializer = new XMLSerializer();
+            const svgStr = serializer.serializeToString(svg);
+            const canvas = document.createElement('canvas');
+            canvas.width = svg.width.baseVal.value || 120;
+            canvas.height = svg.height.baseVal.value || 120;
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0);
+                const a = document.createElement('a');
+                a.download = 'grafico.png';
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+            };
+            img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgStr)));
+        }
+
         // --- Utilitários ---
         function escapeHtml(text) { return text.replace(/[&<>"']/g, function (m) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[m]; }); }
 
@@ -1397,6 +1741,179 @@
             // set default date for donation
             const donDate = document.getElementById('don-date-input'); if (donDate) donDate.valueAsDate = new Date();
         });
+
+        // Inicialização do mapa Leaflet na aba de mapas
+        function initLeafletMap() {
+            if (window._leafletLoaded) {
+                // Força o resize do mapa se já existe
+                setTimeout(function() {
+                    if (window._leafletMap) window._leafletMap.invalidateSize();
+                }, 200);
+                return;
+            }
+            window._leafletLoaded = true;
+            var map = L.map('realmap').setView([-23.547, -46.635], 13);
+            window._leafletMap = map;
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+            // Marcadores de exemplo
+            L.marker([-23.547, -46.635]).addTo(map).bindPopup('Ipê Amarelo');
+            L.marker([-23.551, -46.642]).addTo(map).bindPopup('Pau Brasil');
+            L.marker([-23.555, -46.628]).addTo(map).bindPopup('Jatobá');
+            L.marker([-23.542, -46.651]).addTo(map).bindPopup('Cedro');
+            L.marker([-23.562, -46.618]).addTo(map).bindPopup('Aroeira');
+            L.marker([-23.560, -46.640]).addTo(map).bindPopup('Jacarandá');
+            // Exemplo: ao clicar no mapa, adicionar marcador
+            map.on('click', function(e) {
+                L.marker(e.latlng).addTo(map).bindPopup('Novo Plantio').openPopup();
+            });
+        }
+        const oldNavigateToMap = window.navigateTo;
+        window.navigateTo = function(section) {
+            if (oldNavigateToMap) oldNavigateToMap(section);
+            if (section === 'mapa') setTimeout(initLeafletMap, 300);
+        };
+        function animateNumber(el, finalValue, duration = 1200) {
+            let start = 0;
+            finalValue = parseInt(finalValue.toString().replace(/[.,kK]/g, ''));
+            let startTime = null;
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                let progress = Math.min((ts - startTime) / duration, 1);
+                let value = Math.floor(progress * finalValue);
+                el.textContent = value.toLocaleString('pt-BR');
+                el.style.color = '#38a169';
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    el.textContent = finalValue.toLocaleString('pt-BR');
+                    el.style.color = '';
+                }
+            }
+            requestAnimationFrame(step);
+        }
+        function animateDashboardNumbers() {
+            document.querySelectorAll('#section-dashboard .indicator-number').forEach(card => {
+                animateNumber(card, card.textContent);
+            });
+            // Donut central
+            const donutText = document.querySelector('#section-dashboard .chart-card svg text');
+            if (donutText) animateNumber(donutText, '12500');
+        }
+        function animateRelatorioNumbers() {
+            document.querySelectorAll('#section-relatorio .indicator-number').forEach(card => {
+                animateNumber(card, card.textContent);
+            });
+            // Donut central
+            const donutText = document.querySelector('#section-relatorio .chart-card svg text');
+            if (donutText) animateNumber(donutText, '12500');
+        }
+        const oldNavigateTo2 = window.navigateTo;
+        window.navigateTo = function(section) {
+            if (oldNavigateTo2) oldNavigateTo2(section);
+            if (section === 'dashboard') setTimeout(animateDashboardNumbers, 300);
+            if (section === 'relatorio') setTimeout(animateRelatorioNumbers, 300);
+        };
+        function renderDashboardCharts() {
+            // Evolução Mensal (linha)
+            new Chart(document.getElementById('dashboardLineChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'],
+                    datasets: [{
+                        label: 'Plantios',
+                        data: [45,65,55,80,75,90,85,95,100],
+                        borderColor: '#38a169',
+                        backgroundColor: 'rgba(56,161,105,0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#38a169',
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: {display:false}}, y: { grid: {display:false}, beginAtZero:true } },
+                }
+            });
+            // Donut
+            new Chart(document.getElementById('dashboardDonutChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ipê','Pau Brasil','Jatobá','Outros'],
+                    datasets: [{
+                        data: [35,22,20,23],
+                        backgroundColor: ['#38a169','#4fd1c7','#2f855a','#68d391'],
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    cutout: '65%',
+                }
+            });
+        }
+        function renderRelatorioCharts() {
+            // Donut
+            new Chart(document.getElementById('relatorioDonutChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ipê','Pau Brasil','Jatobá','Outros'],
+                    datasets: [{
+                        data: [35,22,20,23],
+                        backgroundColor: ['#38a169','#4fd1c7','#2f855a','#68d391'],
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    cutout: '65%',
+                }
+            });
+            // Barras
+            new Chart(document.getElementById('relatorioBarChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Jan','Fev','Mar','Abr','Mai','Jun'],
+                    datasets: [{
+                        label: 'Doações',
+                        data: [180,240,135,270,210,165],
+                        backgroundColor: '#38a169',
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: {display:false}}, y: { grid: {display:false}, beginAtZero:true } },
+                }
+            });
+            // Linha
+            new Chart(document.getElementById('relatorioLineChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago'],
+                    datasets: [{
+                        label: 'Plantios',
+                        data: [45,65,55,80,75,90,85,95],
+                        borderColor: '#38a169',
+                        backgroundColor: 'rgba(56,161,105,0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#38a169',
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: {display:false}}, y: { grid: {display:false}, beginAtZero:true } },
+                }
+            });
+        }
+        const oldNavigateTo3 = window.navigateTo;
+        window.navigateTo = function(section) {
+            if (oldNavigateTo3) oldNavigateTo3(section);
+            if (section === 'dashboard') setTimeout(renderDashboardCharts, 300);
+            if (section === 'relatorio') setTimeout(renderRelatorioCharts, 300);
+        };
     </script>
 </body>
 
